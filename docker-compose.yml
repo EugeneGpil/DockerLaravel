@@ -1,0 +1,55 @@
+version: '3.7'
+
+services:
+
+    php:
+        build: php
+        volumes:
+            - ${APP_PATH_HOST}:${APP_PATH_CONTAINER}
+        working_dir: ${APP_PATH_CONTAINER}
+
+    server:
+        build: ./server
+        ports:
+            - 8080:80
+        working_dir: ${APP_PATH_CONTAINER}
+        # restart: always
+        environment:
+            - NGINX_HOST=localhost
+        volumes:
+            - ${APP_PATH_HOST}:${APP_PATH_CONTAINER}
+
+    db:
+        image: mysql
+        command: --default-authentication-plugin=mysql_native_password
+        # restart: always
+        environment:
+            MYSQL_ROOT_PASSWORD: 123
+        volumes: 
+            - ${DB_PATH_HOST}:/var/lib/mysql
+
+    adminer:
+        image: adminer
+        # restart: always
+        ports:
+            - 6080:8080
+
+    node:
+        image: node
+        volumes:
+            - ${APP_PATH_HOST}:${APP_PATH_CONTAINER}
+        working_dir: ${APP_PATH_CONTAINER}
+        command: 
+            bash -c "
+                npm install &&
+                npm run dev && 
+                chown -R www-data ${APP_PATH_CONTAINER}/storage && 
+                chown -R www-data ${APP_PATH_CONTAINER}/bootstrap && 
+                tail -f /dev/null"
+
+    composer:
+        image: composer
+        volumes:
+            - ${APP_PATH_HOST}:${APP_PATH_CONTAINER}
+        working_dir: ${APP_PATH_CONTAINER}
+        command: bash -c "composer install && tail -f /dev/null"
