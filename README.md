@@ -15,12 +15,12 @@ In terminal:
 
 Open project/.env file and set database connection:
 
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_DATABASE=NewLaravelDatabase
-DB_USERNAME=root
-DB_PASSWORD=123
+- DB_CONNECTION=mysql
+- DB_HOST=127.0.0.1
+- DB_PORT=3306
+- DB_DATABASE=NewLaravelDatabase
+- DB_USERNAME=root
+- DB_PASSWORD=123
 
 Back to terminal:
 - docker-compose up --build
