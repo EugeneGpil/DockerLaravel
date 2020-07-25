@@ -52,3 +52,6 @@ services:
             - ${APP_PATH_HOST}:${APP_PATH_CONTAINER}
         working_dir: ${APP_PATH_CONTAINER}
         command: bash -c "composer install && tail -f /dev/null"
+
+    redis:
+        image: redis
