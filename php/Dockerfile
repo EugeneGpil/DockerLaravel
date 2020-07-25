@@ -1,6 +1,9 @@
 FROM php:7.4-fpm
 
 RUN     docker-php-ext-install pdo_mysql && \
+        pecl install -o -f redis &&\
+        rm -rf /tmp/pear &&\
+        docker-php-ext-enable redis &&\
         yes | pecl install xdebug && \
         docker-php-ext-enable xdebug && \
         echo    "\n\
